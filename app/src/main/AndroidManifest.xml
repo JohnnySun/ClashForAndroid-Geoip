@@ -12,6 +12,10 @@
             android:name="com.github.kr328.clash.GEOIP_FILE_NAME"
             android:value="Country.mmdb" />
 
+        <meta-data
+            android:name="com.github.metacubex.clash.meta.GEOIP_FILE_NAME"
+            android:value="Country.mmdb" />
+
         <activity
             android:name="stub.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
