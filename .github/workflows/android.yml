@@ -31,6 +31,17 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+      
+    - name: Purge jsdelivr CDN
+      run: |
+        cd app
+        ls
+        cd build
+        ls
+        cd outputs
+        ls
+        cd apk/release
+        ls
 
     - name: Upload files to GitHub release
       uses: svenstaro/upload-release-action@v2
