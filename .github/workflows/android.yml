@@ -25,3 +25,10 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+
+    - name: Git push assets to "release" branch
+      run: |
+        cd build
+        ls
+        cd out
+        ls
