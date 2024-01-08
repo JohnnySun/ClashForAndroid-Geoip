@@ -42,6 +42,7 @@ class UpdateActivity : AppCompatActivity() {
 
     private fun ActivityStatusCheckUpdate(message: String) {
         Toast.makeText(this@UpdateActivity, message, Toast.LENGTH_LONG).show()
+        binding.textView.text = message
         binding.updateBtn.text = "Check Update"
         binding.updateBtn.setOnClickListener {
             binding.updateBtn.isClickable = false
