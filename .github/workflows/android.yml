@@ -48,7 +48,7 @@ jobs:
         apk_name=$(ls ./app/build/outputs/apk/release/*.apk)
         mkdir -p release_info
         cd release_info || exit 1
-        echo "{\"newVersion\": \"${env.TAG_NAME}\", \"downloadUrl\": \"https://github.com/JohnnySun/ClashForAndroid-Geoip/releases/download/${env.TAG_NAME}/${apk_name}\"}" > version_info.json
+        echo "{\"newVersion\": \"${TAG_NAME}\", \"downloadUrl\": \"https://github.com/JohnnySun/ClashForAndroid-Geoip/releases/download/${TAG_NAME}/${apk_name}\"}" | jq '{newVersion, downloadUrl}' > version_info.json
         git init
         git config --local user.name "github-actions[bot]"
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
