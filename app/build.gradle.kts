@@ -6,7 +6,6 @@ import java.util.*
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
 }
 
 val local = Properties().apply {
@@ -30,13 +29,13 @@ fun getGitHeadRefsSuffix(): String {
 
 
 android {
-    compileSdk = 30
+    compileSdk = 32
 
     defaultConfig {
         applicationId = local.requireProperty("project.package_name")
 
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 32
 
         versionCode = local.requireProperty("project.version_code").toInt()
         versionName = local.requireProperty("project.version_name")
@@ -73,6 +72,10 @@ android {
             )
             signingConfig = signingConfigs["release"]
         }
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     sourceSets {
@@ -151,6 +154,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("com.google.android.material:material:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0-RC2")
 }
 
 fun Properties.requireProperty(key: String): String {

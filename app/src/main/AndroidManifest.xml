@@ -1,12 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="stub">
+<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="stub">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+
 
     <application
-        android:allowBackup="false"
-        android:icon="${applicationIcon}"
-        android:label="@string/package_label"
-        android:theme="@android:style/Theme.NoDisplay">
+    android:allowBackup="false"
+    android:icon="${applicationIcon}"
+    android:label="@string/package_label"
+    android:theme="@android:style/Theme.NoDisplay">
 
         <meta-data
             android:name="com.github.kr328.clash.GEOIP_FILE_NAME"
@@ -22,6 +27,31 @@
             android:multiprocess="true"
             android:theme="@style/ActivityTranslucent"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
+    <!--        <intent-filter>-->
+    <!--            <action android:name="android.intent.action.MAIN" />-->
+    <!--            <category android:name="android.intent.category.LAUNCHER" />-->
+    <!--        </intent-filter>-->
         </activity>
+
+        <activity
+            android:name="stub.UpdateActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 </manifest>
