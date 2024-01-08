@@ -51,7 +51,7 @@ jobs:
     - name: Git push json to "release_info" branch
       run: |
         apk_name=$(basename $(ls ./app/build/outputs/apk/release/*.apk))
-        apk_name=$(echo "$apk_name" | sed 's/\(([0-9]+)\)/.\1/')
+        apk_name=$(echo "$apk_name" | sed 's/(\([0-9]\+\))/.\1/g')
         mkdir -p release_info
         cd release_info || exit 1
         echo "{\"newVersion\": ${TAG_NAME}, \"downloadUrl\": \"https://github.com/JohnnySun/ClashForAndroid-Geoip/releases/download/${TAG_NAME}/${apk_name}\"}" | jq '{newVersion, downloadUrl}' > version_info.json
