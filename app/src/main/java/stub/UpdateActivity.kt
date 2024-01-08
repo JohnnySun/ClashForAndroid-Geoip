@@ -80,7 +80,6 @@ class UpdateActivity : AppCompatActivity() {
                 downloadUrl = updateJson.getString("downloadUrl")
 
                 if (newVersion > BuildConfig.VERSION_CODE) {
-                    downloadAndInstallApk(downloadUrl)
                     "New Version Found"
                 } else {
                     "Already Latest"
