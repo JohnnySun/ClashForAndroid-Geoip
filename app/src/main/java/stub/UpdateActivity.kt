@@ -1,5 +1,6 @@
 package stub;
 
+import android.app.Activity
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -24,6 +25,8 @@ class UpdateActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUpdateBinding
     private val updateUrl = "https://raw.githubusercontent.com/JohnnySun/ClashForAndroid-Geoip/release_info/version_info.json"
+    private var downloadUrl: String = ""
+    private var newVersion: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +35,35 @@ class UpdateActivity : AppCompatActivity() {
         binding = ActivityUpdateBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        ActivityStatusCheckUpdate("Checking Update...")
+        checkForUpdate()
+    }
+
+
+    private fun ActivityStatusCheckUpdate(message: String) {
+        Toast.makeText(this@UpdateActivity, message, Toast.LENGTH_LONG).show()
+        binding.updateBtn.text = "Check Update"
         binding.updateBtn.setOnClickListener {
             binding.updateBtn.isClickable = false
             checkForUpdate()
         }
-        checkForUpdate()
+        binding.updateBtn.isClickable = true
     }
+
+    private fun ActivityStatusInstallUpdate() {
+        Toast.makeText(this@UpdateActivity, "New version: $newVersion founded",
+            Toast.LENGTH_LONG).show()
+        binding.textView.text = "New version: $newVersion founded"
+        binding.updateBtn.isClickable = true
+        binding.updateBtn.text = "Download New Version"
+        binding.updateBtn.setOnClickListener{
+            binding.updateBtn.isClickable = false
+            downloadAndInstallApk(downloadUrl)
+        }
+        binding.updateBtn.isClickable = true
+    }
+
+
 
     private fun checkForUpdate() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -48,8 +74,8 @@ class UpdateActivity : AppCompatActivity() {
                 val inputStream = connection.inputStream
 
                 val updateJson = JSONObject(inputStream.bufferedReader().use { it.readText() })
-                val newVersion = updateJson.getInt("newVersion")
-                val downloadUrl = updateJson.getString("downloadUrl")
+                newVersion = updateJson.getInt("newVersion")
+                downloadUrl = updateJson.getString("downloadUrl")
 
                 if (newVersion > BuildConfig.VERSION_CODE) {
                     downloadAndInstallApk(downloadUrl)
@@ -65,20 +91,10 @@ class UpdateActivity : AppCompatActivity() {
 
             withContext(Dispatchers.Main) {
                 when (result) {
-                    "New Version Found" -> {
-                        Toast.makeText(this@UpdateActivity, "Updating new version geoip database", Toast.LENGTH_LONG).show()
-                        binding.textView.text = "Updating new version geoip database"
-                    }
-                    "Already Latest" -> {
-                        Toast.makeText(this@UpdateActivity, "Update check completed. No new updates found.", Toast.LENGTH_LONG).show()
-                        binding.textView.text = "No Update Found"
-                        binding.updateBtn.isClickable = true
-                    }
-                    else -> {
-                        Toast.makeText(this@UpdateActivity, "Failed to check for updates.", Toast.LENGTH_LONG).show()
-                        binding.textView.text = "Failed to check for updates"
-                        binding.updateBtn.isClickable = true
-                    }
+                    "New Version Found" -> ActivityStatusInstallUpdate()
+                    "Already Latest" -> ActivityStatusCheckUpdate(
+                            "Update check completed. No new updates found. Current Version: ${BuildConfig.VERSION_CODE}")
+                    else -> ActivityStatusCheckUpdate("Failed to check for update.")
                 }
             }
         }
@@ -162,7 +178,7 @@ class UpdateActivity : AppCompatActivity() {
                     }
 
                     startActivity(intentInstall)
-                    binding.updateBtn.isClickable = true
+                    ActivityStatusInstallUpdate()
                 }
 
                 unregisterReceiver(this)
