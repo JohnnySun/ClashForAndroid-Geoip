@@ -45,6 +45,7 @@ class UpdateActivity : AppCompatActivity() {
         binding.textView.text = message
         binding.updateBtn.text = "Check Update"
         binding.updateBtn.setOnClickListener {
+            binding.textView.text = "Checking Update..."
             binding.updateBtn.isClickable = false
             checkForUpdate()
         }
@@ -94,7 +95,7 @@ class UpdateActivity : AppCompatActivity() {
                 when (result) {
                     "New Version Found" -> ActivityStatusInstallUpdate()
                     "Already Latest" -> ActivityStatusCheckUpdate(
-                            "Update check completed. No new updates found. Current Version: ${BuildConfig.VERSION_CODE}")
+                            "Update check completed. \nNo new updates found. \nCurrent Version: ${BuildConfig.VERSION_CODE}")
                     else -> ActivityStatusCheckUpdate("Failed to check for update.")
                 }
             }
