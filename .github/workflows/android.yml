@@ -26,7 +26,6 @@ jobs:
     - name: Set variables
       run: |
         echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
-        echo "RELEASE_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
       shell: bash
 
     - name: Grant execute permission for gradlew
@@ -43,3 +42,18 @@ jobs:
         file_glob: true
         file: ./app/build/outputs/apk/release/*
         tag: ${{ env.TAG_NAME }}
+    
+    - name: Git push json to "release_info" branch
+        run: |
+          apk_name=$(ls ./app/build/outputs/apk/release/*.apk)
+          mkdir -p release_info
+          cd release_info || exit 1
+          echo "{\"newVersion\": \"${env.TAG_NAME}\", \"downloadUrl\": \"https://github.com/JohnnySun/ClashForAndroid-Geoip/releases/download/${env.TAG_NAME}/${apk_name}\"}" | jq '{newVersion, downloadUrl}' > version_info.json
+          git init
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b release_info
+          git add -A
+          git commit -m "${{ env.TAG_NAME }}"
+          git remote add android_geoip_release_info "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u android_geoip_release_info release_info
