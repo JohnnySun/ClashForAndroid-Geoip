@@ -28,6 +28,7 @@ jobs:
         echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
         sed -i "s/^project.version_code=.*/project.version_code=${TAG_NAME}/" local.properties
         sed -i "s/^project.version_name=.*/project.version_name=${TAG_NAME}/" local.properties
+        cat local.properties
       shell: bash
 
     - name: Grant execute permission for gradlew
