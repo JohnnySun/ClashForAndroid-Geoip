@@ -35,7 +35,7 @@ package="stub">
 
         <activity
             android:name="stub.UpdateActivity"
-            android:label="IPINFO.IO MMDB Updater"
+            android:label="IPinfo MMDB Updater"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>

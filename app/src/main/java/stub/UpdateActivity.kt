@@ -31,7 +31,7 @@ class UpdateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update)
-        title = "IPINFO.IO GEOIP MMDB Updater"
+        title = "IPinfo GEOIP MMDB Updater"
         binding = ActivityUpdateBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
