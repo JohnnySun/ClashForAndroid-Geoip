@@ -25,7 +25,7 @@ jobs:
 
     - name: Set variables
       run: |
-        echo "TAG_NAME=$((date +%s))" >> $GITHUB_ENV
+        echo "TAG_NAME=$(date +%s)" >> $GITHUB_ENV
       shell: bash
     - name: Update local.properties
       run: |
