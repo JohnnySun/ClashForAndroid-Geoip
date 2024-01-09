@@ -46,6 +46,7 @@ class UpdateActivity : AppCompatActivity() {
         binding.updateBtn.text = "Check Update"
         binding.updateBtn.setOnClickListener {
             binding.textView.text = "Checking Update..."
+            binding.updateBtn.text = "Checking Update..."
             binding.updateBtn.isClickable = false
             checkForUpdate()
         }
@@ -60,6 +61,7 @@ class UpdateActivity : AppCompatActivity() {
         binding.updateBtn.text = "Download New Version"
         binding.updateBtn.setOnClickListener{
             binding.updateBtn.isClickable = false
+            binding.updateBtn.text = "Downloading Version: $newVersion ..."
             downloadAndInstallApk(downloadUrl)
         }
         binding.updateBtn.isClickable = true
